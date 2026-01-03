@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Mikrofon Testi</title>
+    <style>
+        body { font-family: sans-serif; text-align: center; padding-top: 50px; background: #121212; color: white; }
+        #testBtn { padding: 20px; font-size: 20px; cursor: pointer; background: #4285f4; color: white; border: none; border-radius: 10px; }
+        #output { margin-top: 30px; font-size: 24px; color: #f1c40f; }
+    </style>
+</head>
+<body>
+
+    <h1>🎤 GitHub Mikrofon Testi</h1>
+    <p>Aşağıdaki butona bas ve "Merhaba" de.</p>
+    <button id="testBtn">Mikrofonu Aç ve Konuş</button>
+    <div id="output">Henüz bir şey söylenmedi...</div>
+
+    <script>
+        const btn = document.getElementById('testBtn');
+        const output = document.getElementById('output');
+
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (!SpeechRecognition) {
+            output.innerText = "Hata: Tarayıcın ses tanımayı desteklemiyor.";
+        } else {
+            const recognition = new SpeechRecognition();
+            recognition.lang = 'tr-TR';
+
+            btn.onclick = () => {
+                recognition.start();
+                output.innerText = "Dinliyorum... Konuşun.";
+            };
+
+            recognition.onresult = (event) => {
+                const text = event.results[0][0].transcript;
+                output.innerText = "Duyduğum: " + text;
+                console.log("Başarılı! Duyulan metin:", text);
+            };
+
+            recognition.onerror = (event) => {
+                output.innerText = "Hata oluştu: " + event.error;
+                console.error("Mikrofon hatası:", event.error);
+            };
+        }
+    </script>
+</body>
+</html>
