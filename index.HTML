@@ -3,71 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * 'unsafe-inline';">
-    
-    <title>Lahmacun Projesi - Canlı Asistan</title>
-    
+    <title>2 Lahmacun Projesi</title>
     <style>
-        body { font-family: sans-serif; background-color: #ff9800; color: white; text-align: center; padding: 50px; }
-        .box { background: white; color: #333; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
-        button { background: #d32f2f; color: white; border: none; padding: 15px 30px; border-radius: 10px; font-size: 18px; cursor: pointer; margin-top: 10px; }
+        body { font-family: sans-serif; background-color: #e67e22; color: white; text-align: center; padding: 50px; }
+        .card { background: white; color: #333; padding: 20px; border-radius: 15px; display: inline-block; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        button { background: #d35400; color: white; border: none; padding: 15px 25px; border-radius: 8px; font-size: 18px; cursor: pointer; }
     </style>
 </head>
 <body>
-
-    <div class="box">
-        <h1>Lahmacun Projesi</h1>
-        <p id="status">Sistem Hazır. Konuşmak için butona bas.</p>
-        <button id="start-btn">🎙️ Konuşmayı Başlat</button>
-        <div id="response-text" style="margin-top: 20px; font-weight: bold;"></div>
+    <div class="card">
+        <h1>🍕 Lahmacun Projesi</h1>
+        <p id="durum">Usta hazır, seni dinliyor...</p>
+        <button id="baslat">🎙️ Konuşmaya Başla</button>
+        <p id="cevap" style="margin-top:20px; font-weight:bold; color:#d35400;"></p>
     </div>
 
     <script>
-        // KONTROL PANELİ
         const API_KEY = 'AIzaSyChUn6h6F15AoWM1Huu2BgRVOQx0BEyuPw';
-        const TALIMAT = "Sen bir Lahmacun ve Çiğ Köfte ustasısın. Sorulara esnaf ağzıyla kısa cevaplar ver.";
+        const baslatBtn = document.getElementById('baslat');
+        const durumText = document.getElementById('durum');
+        const cevapText = document.getElementById('cevap');
 
-        const startBtn = document.getElementById('start-btn');
-        const status = document.getElementById('status');
-        const responseText = document.getElementById('response-text');
+        const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+        recognition.lang = 'tr-TR';
 
-        // Ses Tanıma Ayarı
-        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRecognition) {
-            status.innerText = "HATA: Tarayıcı ses tanımayı desteklemiyor.";
-        } else {
-            const recognition = new SpeechRecognition();
-            recognition.lang = 'tr-TR';
+        baslatBtn.onclick = () => { recognition.start(); durumText.innerText = "Dinleniyor..."; };
 
-            startBtn.onclick = () => { recognition.start(); status.innerText = "Dinleniyor..."; };
+        recognition.onresult = async (event) => {
+            const soz = event.results[0][0].transcript;
+            durumText.innerText = "Söylenen: " + soz;
+            
+            try {
+                const res = await fetch(https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: "Sen bir lahmacun ustasısın. Kısa cevap ver: " + soz }] }] })
+                });
+                const data = await res.json();
+                const ustaCevabi = data.candidates[0].content.parts[0].text;
+                cevapText.innerText = ustaCevabi;
 
-            recognition.onresult = async (event) => {
-                const query = event.results[0][0].transcript;
-                status.innerText = "Soru: " + query;
-                
-                // Gemini API İsteği
-                try {
-                    const res = await fetch(https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: TALIMAT + "\nSoru: " + query }] }] })
-                    });
-                    const data = await res.json();
-                    const reply = data.candidates[0].content.parts[0].text;
-                    responseText.innerText = reply;
-                    
-                    // Sesli Okuma
-                    const speech = new SpeechSynthesisUtterance(reply);
-                    speech.lang = 'tr-TR';
-                    window.speechSynthesis.speak(speech);
-                    status.innerText = "Usta Cevap Veriyor...";
-                } catch (e) {
-                    status.innerText = "Bağlantı Hatası!";
-                }
-            };
-        }
+                const speak = new SpeechSynthesisUtterance(ustaCevabi);
+                speak.lang = 'tr-TR';
+                window.speechSynthesis.speak(speak);
+            } catch (e) {
+                durumText.innerText = "Hata: API anahtarını kontrol et!";
+            }
+        };
     </script>
 </body>
 </html>
+
 
 
