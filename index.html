@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>GY-61 | Milli Yapay Zeka Ağı</title>
+    <style>
+        :root { --bordo: #610000; --siyah: #1a1a1a; --gri: #f8f9fa; --yesil: #25D366; }
+        body { font-family: 'Inter', sans-serif; margin: 0; background: var(--gri); color: var(--siyah); -webkit-user-select: none; }
+        
+        /* Üst Bilgi Çubuğu */
+        .top-bar { background: var(--bordo); color: white; text-align: center; padding: 10px; font-size: 0.9rem; font-weight: bold; }
+
+        /* Asistan Konuşma Alanı */
+        .chat-container { height: calc(100vh - 160px); overflow-y: auto; padding: 15px; display: flex; flex-direction: column; }
+        .msg { max-width: 80%; padding: 12px; margin: 8px 0; border-radius: 15px; font-size: 0.95rem; line-height: 1.4; }
+        .msg.bot { background: white; border-left: 5px solid var(--bordo); align-self: flex-start; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .msg.user { background: var(--bordo); color: white; align-self: flex-end; }
+
+        /* Viral Alt Bar: Sistemin Büyüme Motoru */
+        .viral-footer { position: fixed; bottom: 0; width: 100%; display: flex; background: white; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+        .btn-call { flex: 2; background: var(--yesil); color: white; border: none; padding: 15px; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-system { flex: 1; background: var(--siyah); color: #d4af37; border: none; padding: 15px; font-size: 0.75rem; cursor: pointer; border-left: 1px solid #333; }
+
+        /* Giriş Mesajı Paketi (Senin 100 Sorumuzun Önizlemesi) */
+        .quick-questions { display: flex; gap: 10px; overflow-x: auto; padding: 10px; background: #eee; }
+        .q-chip { background: white; padding: 8px 15px; border-radius: 20px; white-space: nowrap; font-size: 0.85rem; border: 1px solid #ddd; cursor: pointer; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="top-bar">💎 GEMİNİ YAVRUSU 61 - [ID: 61-101]</div>
+
+<div class="chat-container" id="chatBox">
+    <div class="msg bot">
+        Merhaba! Ben bu işletmenin milli ve ahlaki değerlerle eğitilmiş dijital asistanıyım. 
+        <b>Sait Galeri</b> hakkında her şeyi bana sorabilirsiniz. Size nasıl yardımcı olabilirim?
+    </div>
+</div>
+
+<div class="quick-questions">
+    <div class="q-chip" onclick="askQuick('Ahlak vizyonunuz nedir?')">🛡️ Ahlak Vizyonu</div>
+    <div class="q-chip" onclick="askQuick('Çalışma saatleriniz?')">⏰ Çalışma Saatleri</div>
+    <div class="q-chip" onclick="askQuick('Size nasıl güvenirim?')">🤝 Güven Politikası</div>
+</div>
+
+<div style="padding: 10px; background: white; display: flex; gap: 5px;">
+    <input type="text" id="userInput" placeholder="Mesajınızı yazın..." style="flex:1; padding: 12px; border: 1px solid #ddd; border-radius: 5px;">
+    <button onclick="sendMessage()" style="padding: 10px; background: var(--bordo); color: white; border: none; border-radius: 5px;">GÖNDER</button>
+</div>
+
+<footer class="viral-footer">
+    <button class="btn-call" onclick="location.href='tel:05XXXXXXXXX'">
+        📞 İŞLETMEYE ULAŞ
+    </button>
+    <button class="btn-system" onclick="goToMainProject()">
+        ⚙️ KENDİ SİSTEMİNİ <br><b>ÜCRETSİZ KUR</b>
+    </button>
+</footer>
+
+<script>
+    // ASİYE GUARD: F12 ve Sağ Tık Koruması
+    document.onkeydown = function(e) { if(e.keyCode == 123) return false; };
+
+    function sendMessage() {
+        let input = document.getElementById('userInput');
+        if(!input.value) return;
+        appendMessage(input.value, 'user');
+        
+        // Burası senin "Lokal Zeka" motoruna bağlanacak
+        setTimeout(() => {
+            appendMessage("Şu an talebiniz işleniyor. Sistem yöneticisi API enjeksiyonu yaptığında global zekam tam kapasite devreye girecektir.", 'bot');
+        }, 1000);
+        
+        input.value = "";
+    }
+
+    function appendMessage(text, side) {
+        let box = document.getElementById('chatBox');
+        let div = document.createElement('div');
+        div.className = 'msg ' + side;
+        div.innerText = text;
+        box.appendChild(div);
+        box.scrollTop = box.scrollHeight;
+    }
+
+    function goToMainProject() {
+        alert("Sizi Türkiye'nin en büyük Milli Yapay Zeka Ağı'nın merkezine yönlendiriyorum. Kendi 'Yavru'nuzu kurmaya hazır olun!");
+        // window.location.href = 'senin-ana-merkezin.html';
+    }
+
+    function askQuick(q) {
+        document.getElementById('userInput').value = q;
+        sendMessage();
+    }
+</script>
+
+</body>
+</html>

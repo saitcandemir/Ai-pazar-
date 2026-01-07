@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GY-61 | Yavru Geliştirme Paneli</title>
+    <style>
+        :root { --bordo: #610000; --gold: #d4af37; --mavi: #e3f2fd; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f2f5; margin: 0; }
+        
+        /* Üst Bilgi ve IP Takip */
+        .security-header { background: #333; color: #fff; padding: 10px; font-size: 11px; display: flex; justify-content: space-between; }
+        
+        .container { max-width: 800px; margin: 20px auto; padding: 15px; }
+        
+        /* 10$ Bildirimi */
+        .price-note { background: var(--mavi); border-left: 5px solid #2196f3; padding: 15px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; color: #0d47a1; }
+
+        /* Yasal Taahhüt Kutusu */
+        .legal-box { background: white; border: 2px solid var(--bordo); padding: 20px; border-radius: 10px; text-align: center; }
+        .legal-box h2 { color: var(--bordo); margin-top: 0; }
+        .btn-confirm { background: var(--bordo); color: white; padding: 15px 30px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; }
+
+        /* Eğitim Alanı (Gizli Başlar) */
+        #training-section { display: none; margin-top: 20px; }
+        .data-card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        
+        textarea { width: 100%; height: 100px; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; resize: none; }
+        .master-list { background: #eee; padding: 10px; border-radius: 5px; font-size: 13px; color: #555; height: 150px; overflow-y: auto; }
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+<div class="security-header">
+    <span>🛡️ GÜVENLİK PROTOKOLÜ: AKTİF</span>
+    <span>IP: <span id="userIP">192.168.1.X</span> | ID: 61-101</span>
+</div>
+
+<div class="container">
+    
+    <div id="legalStep" class="legal-box">
+        <h2>DİKKAT: Yasal Sorumluluk Kaydı</h2>
+        <p>Gemini Yavrusu 61 sistemini kullanırken asistanın vereceği cevaplar, aşağıda gireceğiniz verilere dayanacaktır. Tüm yasal sorumluluğun şahsıma ait olduğunu, milli ve ahlaki değerlere aykırı eğitim vermeyeceğimi beyan ve kabul ederim.</p>
+        <div class="price-note">
+            💡 <b>Halkımıza Not:</b> Şu anki 10$ teknik destek bedeli, sistem altyapımızı korumak içindir. Ağımız genişledikçe bu bedel söz verdiğimiz gibi aşağı çekilecektir.
+        </div>
+        <button class="btn-confirm" onclick="acceptLegal()">OKUDUM, ONAYLIYORUM</button>
+    </div>
+
+    <div id="training-section">
+        <div class="data-card">
+            <h3>📚 Üst Yönetici Müfredatı (Sabit)</h3>
+            <p style="font-size: 12px;">Aşağıdaki 100 soru merkezi yönetim tarafından tanımlanmıştır ve değiştirilemez. Yavrunuz bu temel ahlak ve kültür bilgisiyle doğar.</p>
+            <div class="master-list" id="masterQuestions">
+                <p><b>1. Soru:</b> Ahlak vizyonunuz nedir? <br> <i>Cevap: Dürüstlük ve milli değerler...</i></p>
+                <p><b>2. Soru:</b> Neden 10 dolar? <br> <i>Cevap: Kuruluş ve altyapı maliyetleri...</i></p>
+            </div>
+        </div>
+
+        <div class="data-card">
+            <h3>✍️ Yavrunu Eğit (Kendi Verilerin)</h3>
+            <p style="font-size: 12px;">İşletmenize özel bilgileri buraya girin. Örn: "Pazar günleri kapalıyız."</p>
+            <textarea id="userKnowledge" placeholder="Yavrunuzun bilmesini istediğiniz her şeyi buraya yazın..."></textarea>
+            <br><br>
+            <button class="btn-confirm" style="background: #28a745;" onclick="saveKnowledge()">BİLGİLERİ YAVRUYA ÖĞRET</button>
+        </div>
+
+        <div class="data-card" style="border-top: 5px solid gold;">
+            <h3>🌐 Global Zeka Durumu</h3>
+            <p id="apiStatus">🔴 Pasif (Kredi Bekleniyor)</p>
+            <small>20 soruluk dış zeka hakkı için Süper Admin'den "Günlük Harç" talep ediniz.</small>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ASİYE GUARD
+    document.onkeydown = function(e) { if(e.keyCode == 123) return false; };
+
+    function acceptLegal() {
+        document.getElementById('legalStep').style.display = 'none';
+        document.getElementById('training-section').style.display = 'block';
+        alert("Yasal taahhüdünüz kaydedildi. Eğitim modülü açıldı.");
+    }
+
+    function saveKnowledge() {
+        const text = document.getElementById('userKnowledge').value;
+        if(text.length < 10) {
+            alert("Lütfen biraz daha detaylı bilgi girin.");
+            return;
+        }
+        localStorage.setItem('yavru_61_data', text);
+        alert("Yavrunuz yeni bilgilerle güncellendi. Artık ziyaretçilere bu bilgileri verecek.");
+    }
+
+    // IP Tespiti (Simüle)
+    fetch('https://api.ipify.org?format=json')
+    .then(res => res.json())
+    .then(data => document.getElementById('userIP').innerText = data.ip);
+</script>
+
+</body>
+</html>

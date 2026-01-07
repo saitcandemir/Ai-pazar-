@@ -1,0 +1,154 @@
+/* GEMİNİ YAVRUSU 61 - FIRTINA EDİSYONU
+   Renk Paleti: Bordo (#610000), Mavi (#005C97), Beyaz (#FFFFFF)
+*/
+
+:root {
+    --ts-bordo: #610000;
+    --ts-mavi: #009BD7; /* Trabzonspor Mavisi */
+    --ts-beyaz: #ffffff;
+    --koyu-gri: #1d1d1b;
+    --arka-plan: #f0f4f7;
+    --altin: #D4AF37; /* Sadece kritik sayaçlar için */
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--arka-plan);
+    color: var(--koyu-gri);
+    margin: 0;
+    padding: 0;
+    user-select: none; /* Asiye Koruma */
+}
+
+/* --- FIRTINA ÜST BAR --- */
+header {
+    background: linear-gradient(90deg, var(--ts-bordo) 0%, var(--ts-mavi) 100%);
+    color: var(--ts-beyaz);
+    padding: 25px 15px;
+    text-align: center;
+    border-bottom: 5px solid var(--ts-beyaz);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+header h1 {
+    margin: 0;
+    font-size: 1.7rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    letter-spacing: 1px;
+}
+
+/* --- KONTEYNER VE KARTLAR --- */
+.container {
+    max-width: 950px;
+    margin: auto;
+    padding: 20px;
+}
+
+.card {
+    background: var(--ts-beyaz);
+    border-radius: 15px;
+    padding: 25px;
+    margin-bottom: 25px;
+    border-top: 5px solid var(--ts-mavi);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* --- SÜPER ADMİN TABLO (TAKİP MERKEZİ) --- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background-color: var(--ts-bordo);
+    color: var(--ts-beyaz);
+    padding: 15px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+td {
+    padding: 12px;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* --- SAYAÇ VE İSTATİSTİK (KRİTİK ALAN) --- */
+.badge-talep {
+    background-color: var(--ts-mavi);
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    border: 1px solid var(--ts-bordo);
+}
+
+/* --- BUTONLAR --- */
+button {
+    border-radius: 8px;
+    border: none;
+    padding: 12px 20px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-bordo { background-color: var(--ts-bordo); color: white; }
+.btn-mavi { background-color: var(--ts-mavi); color: white; }
+
+button:hover {
+    opacity: 0.9;
+    transform: translateY(-2px);
+}
+
+/* --- CHAT PENCERESİ (VİTRİN) --- */
+#chatBox {
+    background: var(--ts-beyaz);
+    height: 450px;
+    border: 2px solid var(--ts-mavi);
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.msg.bot {
+    background: #e1f5fe; /* Açık mavi tonu */
+    border-left: 5px solid var(--ts-bordo);
+    color: #333;
+}
+
+.msg.user {
+    background: var(--ts-bordo);
+    color: white;
+}
+
+/* --- VİRAL ALT BAR --- */
+.footer-viral {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    z-index: 1000;
+}
+
+.btn-whatsapp { flex: 2; background: #25D366; color: white; padding: 20px; border-top: 3px solid white; }
+.btn-merkez { flex: 1; background: var(--ts-bordo); color: var(--ts-mavi); padding: 20px; border-top: 3px solid white; }
+
+/* MOBİL AYARLAR */
+@media (max-width: 600px) {
+    .container { padding: 10px; }
+    table { font-size: 12px; }
+    .btn-merkez { font-size: 10px; }
+}

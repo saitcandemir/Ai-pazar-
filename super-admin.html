@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GY-61 SÜPER ADMİN | Kontrol Paneli</title>
+    <style>
+        :root { --bordo: #610000; --gold: #d4af37; --bg: #f4f4f4; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 0; }
+        header { background: var(--bordo); color: white; padding: 20px; text-align: center; border-bottom: 4px solid var(--gold); }
+        .container { padding: 20px; max-width: 1000px; margin: auto; }
+        .card { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        
+        /* Ana Sistem Aktivasyon Bölümü */
+        .master-box { border: 2px solid var(--bordo); }
+        input[type="password"] { padding: 10px; width: 250px; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; cursor: pointer; border: none; border-radius: 5px; font-weight: bold; transition: 0.3s; }
+        .btn-fire { background: var(--bordo); color: white; }
+        .btn-fire:hover { background: #800000; }
+
+        /* Üye Takip Tablosu */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; }
+        th, td { padding: 12px; border: 1px solid #ddd; text-align: left; }
+        th { background: #333; color: white; }
+        .counter-badge { background: var(--gold); color: black; padding: 3px 8px; border-radius: 50%; font-weight: bold; }
+        .status-on { color: green; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>GY-61 STRATEJİK YÖNETİM MERKEZİ</h1>
+    <p>Milli Yapay Zeka Ağı Komuta Masası</p>
+</header>
+
+<div class="container">
+    <div class="card master-box">
+        <h3>🚀 Ana Sistem Aktivasyonu (Günlük)</h3>
+        <p>Kendi ana sayfanız ve sistem geneli için API anahtarını girin:</p>
+        <input type="password" id="masterKeyInput" placeholder="Master API Key...">
+        <button class="btn-fire" onclick="activateSystem('MASTER')">SİSTEMİ UYANDIR</button>
+    </div>
+
+    <div class="card">
+        <h3>👥 Üye Bazlı Kredi ve API Yönetimi</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Üye ID</th>
+                    <th>İsim / Sektör</th>
+                    <th>Aylık Talep <br><small>(İstatistik)</small></th>
+                    <th>API Enjeksiyonu</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+            <tbody id="memberList">
+                <tr>
+                    <td><b>61-101</b></td>
+                    <td>Sait Galeri / Otomotiv</td>
+                    <td><span class="counter-badge" id="count-61-101">0</span></td>
+                    <td>
+                        <input type="password" id="key-61-101" placeholder="20'lik Key">
+                        <button onclick="injectKey('61-101')" style="background:green; color:white;">GÖNDER</button>
+                    </td>
+                    <td id="status-61-101">⚪ Beklemede</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // SAYAÇ VE AKTİVASYON MANTIĞI
+    function injectKey(userId) {
+        let keyField = document.getElementById('key-' + userId);
+        let countDisplay = document.getElementById('count-' + userId);
+        let statusDisplay = document.getElementById('status-' + userId);
+
+        if(keyField.value.length < 10) {
+            alert("Geçersiz API Key!");
+            return;
+        }
+
+        // 1. Sayacı Artır (İstatistik için)
+        let currentCount = parseInt(countDisplay.innerText);
+        currentCount++;
+        countDisplay.innerText = currentCount;
+
+        // 2. Durumu Güncelle
+        statusDisplay.innerText = "🟢 Aktif (20 Soru)";
+        statusDisplay.className = "status-on";
+
+        // 3. Bildirim (Tahsilat kontrolü için uyarı)
+        if(currentCount >= 5) {
+            alert("DİKKAT: " + userId + " ID'li üye bu ay " + currentCount + ". kez kredi istedi. Ek ödeme talep edebilirsiniz!");
+        }
+
+        console.log(userId + " için API enjekte edildi. Kredi ID: " + Math.random());
+        keyField.value = ""; // Güvenlik için kutuyu boşalt
+    }
+
+    function activateSystem(type) {
+        alert("Ana Sistem Başarıyla Ateşlendi! Bugünün müfredatı aktif.");
+    }
+</script>
+
+</body>
+</html>
